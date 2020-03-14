@@ -255,11 +255,11 @@ done
 
 # main
 
-# checks if the current path includes the word p4c somewhere
-# its probably not the best way to check if we are in the right
-# path, but its something
-if [[ "$ROOT_PATH" == *"bmv2"* ]];then
-
+# Checks if the current path includes the word bmv2 somewhere.  Also
+# if there exist directories named '.git' and 'm4'.  This is not a
+# guarantee that we are in a bmv2 source directory, but it is
+# something.
+if [[ "$ROOT_PATH" == *"bmv2"* && -d .git && -d m4 ]]; then
     if [ "$ENABLE_P4_RUNTIME" == 1 ]; then
         # Updates PI: https://github.com/p4lang/PI
         do_update_PI

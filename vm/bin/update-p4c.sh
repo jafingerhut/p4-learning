@@ -17,7 +17,7 @@
 #
 # --update-code: before building cleans and pulls code from master or <use-commit>
 #
-# --p4c-commit: specific commit we want to checkout before building the bmv2
+# --p4c-commit: specific commit we want to checkout before building p4c
 #
 # --enable-debugging: compiles the switch with debugging options
 #
@@ -26,7 +26,7 @@
 # --only-copy-p4include: does not compile p4c
 #
 #
-# This script must be run from the bmv2 directory!!!
+# This script must be run from the p4c directory!!!
 
 ROOT_PATH="$(pwd)"
 NUM_CORES=`grep -c ^processor /proc/cpuinfo`
@@ -43,8 +43,8 @@ function usage() {
 Update p4c script options.
 
  Options:
-  --update-code          Username for script
-  --p4c-commit:          Specific commit we want to checkout before building the bmv2
+  --update-code          Before building, clean and pull latest master code
+  --p4c-commit:          Specific commit we want to checkout before building p4c
   --enable-debugging:    Compiles the switch with debugging options
   --copy-p4include:      Copies a custom p4include to the global path
   --only-copy-p4include: Does not compile p4c
@@ -156,10 +156,11 @@ done
 
 # main
 
-# checks if the current path includes the word p4c somewhere
-# its probably not the best way to check if we are in the right
-# path, but its something
-if [[ "$ROOT_PATH" == *"p4c"* ]];then
+# Checks if the current path includes the word p4c somewhere.  Also if
+# there exist directories named '.git' and 'midend'.  This is not a
+# guarantee that we are in a p4c source directory, but it is
+# something.
+if [[ "$ROOT_PATH" == *"p4c"* && -d .git && -d midend ]]; then
     if [ "$P4INCLUDE_ONLY" == 0 ]; then
         do_update_p4c
     fi
